@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>名駅 放課後ごはんガイド（実物写真リンク付き）</title>
+  <title>名駅 放課後ごはんガイド（15:30以降営業・所要時間付き）</title>
   <style>
     :root {
       --primary: #2563eb;
@@ -104,6 +104,13 @@
       color: #fff;
     }
 
+    .count-indicator {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      padding-left: 4px;
+    }
+
     .shop-list {
       display: flex;
       flex-direction: column;
@@ -166,9 +173,26 @@
       line-height: 1.5;
     }
 
-    .shop-details {
+    .meta-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
       font-size: 0.8rem;
-      color: var(--text-muted);
+      background: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #334155;
+    }
+
+    .meta-label {
+      font-weight: 700;
+      color: #475569;
     }
 
     .card-footer {
@@ -225,20 +249,22 @@
   <div class="container">
     <header>
       <h1>名駅 放課後ごはんガイド</h1>
-      <p class="subtitle">改札すぐ・地下街直結・コスパ重視の全17店舗まとめ</p>
+      <p class="subtitle">15:30以降も入店可能（中休みなし・通し営業）＆名駅からの所要時間付き</p>
     </header>
 
     <div class="controls">
       <input type="text" id="searchInput" class="search-box" placeholder="店名や料理名、エリアで検索..." oninput="handleSearch()">
       <div class="filter-tabs">
         <button class="filter-tab active" onclick="setCategory('all', this)">すべて</button>
-        <button class="filter-tab" onclick="setCategory('rice', this)">🍚 定食・丼・米</button>
+        <button class="filter-tab" onclick="setCategory('rice', this)">🍚 定食・丼</button>
         <button class="filter-tab" onclick="setCategory('ramen', this)">🍜 ラーメン・まぜそば</button>
-        <button class="filter-tab" onclick="setCategory('udon', this)">🍲 うどん・パスタ</button>
+        <button class="filter-tab" onclick="setCategory('udon', this)">🍲 うどん・そば・パスタ</button>
         <button class="filter-tab" onclick="setCategory('curry', this)">🍛 カレー</button>
-        <button class="filter-tab" onclick="setCategory('other', this)">🍕 洋食・ピザ</button>
+        <button class="filter-tab" onclick="setCategory('other', this)">🍕 ピッツァ</button>
       </div>
     </div>
+
+    <div class="count-indicator" id="countIndicator">掲載数: 16店舗</div>
 
     <div class="shop-list" id="shopList"></div>
   </div>
@@ -249,153 +275,160 @@
         name: "台湾まぜそば はなび ラーメン 名駅西口店",
         category: "ramen",
         genre: "台湾まぜそば・追い飯",
-        area: "新幹線口（太閤通口）徒歩3分",
+        access: "名駅 太閤通口（新幹線口）から徒歩約3分",
+        hours: "11:00〜22:00（通し営業）",
         budget: "約900〜1,100円",
-        desc: "名古屋発祥の元祖台湾まぜそば。ピリ辛ミンチと太麺、無料の「追い飯」で満足度抜群。",
+        desc: "元祖台湾まぜそば。ピリ辛ミンチと太麺に卵黄が絡む濃厚な一杯。麺を食べ終えた後の無料「追い飯」で満腹に。",
         mapQuery: "台湾まぜそば+はなび+名駅西口店"
       },
       {
         name: "スパゲッティ・ハウス ヨコイ KITTE名古屋店",
         category: "udon",
         genre: "あんかけスパゲティ",
-        area: "KITTE名古屋 B1F（駅直結）",
+        access: "名駅 桜通口から徒歩約2分（KITTE名古屋 B1F 直結）",
+        hours: "11:00〜22:00（通し営業）",
         budget: "約950〜1,200円",
-        desc: "元祖あんかけスパの名店。黒胡椒がピリッと効いた濃厚ソースと極太パスタ。",
+        desc: "元祖あんかけスパの名店。黒胡椒が効いたピリ辛濃厚ソースと極太パスタ。赤ウインナー入りの「ミラカン」が名物。",
         mapQuery: "スパゲッティハウス+ヨコイ+KITTE名古屋店"
+      },
+      {
+        name: "おらが蕎麦 名古屋うまいもん通り太閤通口店",
+        category: "udon",
+        genre: "自家製麺そば・丼セット・旨辛牛肉そば",
+        access: "名駅 新幹線口・太閤通口改札すぐ横（うまいもん通り内 徒歩0分）",
+        hours: "11:00〜23:00（通し営業）",
+        budget: "約700〜1,000円",
+        desc: "コシのある自家製麺が山盛りで提供されるハイコスパ蕎麦店。ピリ辛つゆの『旨辛牛肉そば』や、ボリューム満点のかき揚げ丼セットが人気。",
+        mapQuery: "おらが蕎麦+名古屋うまいもん通り太閤通口店"
       },
       {
         name: "エリックサウス KITTE名古屋店",
         category: "curry",
         genre: "南インドカレー・ビリヤニ",
-        area: "KITTE名古屋 B1F（駅直結）",
+        access: "名駅 桜通口から徒歩約2分（KITTE名古屋 B1F 直結）",
+        hours: "11:00〜23:00（通し営業）",
         budget: "約1,000〜1,300円",
-        desc: "本格スパイスカレーとバスマティライス。カウンター席が多く一人でも入りやすい。",
+        desc: "本格スパイスカレーとバスマティライス。カウンター席中心で15:30以降の遅めの昼ごはんでも一人で気軽に入れます。",
         mapQuery: "エリックサウス+KITTE名古屋店"
       },
       {
         name: "江南 JRセントラルタワーズ店",
         category: "ramen",
         genre: "老舗あっさりラーメン・炒飯",
-        area: "タワーズプラザ 13F（駅直結）",
+        access: "JR名古屋駅 改札すぐ上（タワーズプラザ 13F エレベーター直結）",
+        hours: "11:00〜22:00（通し営業）",
         budget: "約900〜1,200円",
-        desc: "豚骨鶏ガラの澄んだスープが絶品の老舗。パラパラ炒飯や餃子セットも人気。",
+        desc: "豚骨鶏ガラの澄んだスープが絶品の老舗ラーメン。パラパラ炒飯や小ぶりな餃子セットも人気。",
         mapQuery: "江南+JRセントラルタワーズ店"
       },
       {
         name: "よもだそば 名古屋うまいもん通り広小路口店",
         category: "curry",
         genre: "立ち食いそば・特製インドカレー",
-        area: "JR広小路口改札すぐ横",
+        access: "名駅 JR広小路口改札すぐ横（徒歩0分）",
+        hours: "7:00〜22:00（通し営業）",
         budget: "約600〜850円",
-        desc: "本格スパイスを煮込んだ自家製「特製インドカレー」が大名物。提供スピード最速。",
+        desc: "本格スパイスを煮込んだ自家製「特製インドカレー」が大名物。提供スピード最速でお小遣いにも優しいお店です。",
         mapQuery: "よもだそば+名古屋うまいもん通り広小路口店"
       },
       {
         name: "若鯱家 名古屋駅エスカ店",
         category: "udon",
         genre: "名物カレーうどん・セット丼",
-        area: "新幹線口側 地下街エスカ",
+        access: "名駅 太閤通口（新幹線口）地下直結（エスカ地下街 徒歩1分）",
+        hours: "11:00〜22:00（通し営業）",
         budget: "約1,000〜1,300円",
-        desc: "とろみが強く和風だしの効いたカレールーにモッチリ極太麺。ミニ味噌カツ丼セットも。",
+        desc: "とろみが強く和風だしの効いたカレールーにモッチリ極太麺。ミニ味噌カツ丼セットなどボリューム満点。",
         mapQuery: "若鯱家+名古屋駅エスカ店"
       },
       {
         name: "丸亀製麺 名駅サンロード",
         category: "udon",
         genre: "讃岐うどん・天ぷら",
-        area: "地下街サンロード（近鉄・名鉄側）",
+        access: "名駅 近鉄・名鉄・地下鉄改札すぐ（サンロード地下街 徒歩1分）",
+        hours: "10:00〜21:30（通し営業）",
         budget: "約400〜750円",
-        desc: "安く早くサクッと済ませたいときの定番。天ぷらやおにぎりを合わせても千円以下。",
+        desc: "安く早くサクッと済ませたいときの定番。打ち立てうどんに揚げたて天ぷらやおにぎりを合わせても千円以下。",
         mapQuery: "丸亀製麺+名駅サンロード"
       },
       {
         name: "野らぼー 名古屋JRゲートタワー店",
         category: "udon",
         genre: "手打ち讃岐うどん・天ぷら",
-        area: "JRゲートタワー 12F（駅直結）",
+        access: "名駅 桜通口すぐ（JRゲートタワー 12F 直結）",
+        hours: "11:00〜23:00（通し営業）",
         budget: "約900〜1,300円",
-        desc: "コシの強い手打ち讃岐うどん。落ち着いた店内で友達とゆったり座って食べられます。",
+        desc: "コシの強い本格手打ち讃岐うどん。落ち着いた店内で放課後に友達とゆったり座って食べたい日に最適。",
         mapQuery: "野らぼー+名古屋JRゲートタワー店"
-      },
-      {
-        name: "カレーうどん 大庵",
-        category: "udon",
-        genre: "カレーうどん（朝〜14時）",
-        area: "名駅4丁目（柳橋中央市場エリア）",
-        budget: "約800〜1,000円",
-        desc: "出汁の旨味が効いた市場エリアのカレーうどん専門店。※早帰りの日向け。",
-        mapQuery: "カレーうどん+大庵+名古屋"
-      },
-      {
-        name: "名北飯店 サンロード店",
-        category: "rice",
-        genre: "中華定食・白米ガッツリ",
-        area: "地下街サンロード",
-        budget: "約900〜1,100円",
-        desc: "から揚げや麻婆豆腐など、濃いめの味付けで白米がどんどん進む町中華定食。",
-        mapQuery: "名北飯店+サンロード店"
       },
       {
         name: "松のや 名駅西口店",
         category: "rice",
         genre: "とんかつ・カツ丼・定食",
-        area: "太閤通口（新幹線口）徒歩3分",
+        access: "名駅 太閤通口（新幹線口）から徒歩約3分",
+        hours: "24時間営業",
         budget: "約600〜900円",
-        desc: "ロースかつ定食やカツ丼がコスパ抜群。食券制で回転も早く節約したい日に最適。",
+        desc: "ロースかつ定食やカツ丼がコスパ抜群。食券制で回転も早く、15:30以降の放課後でもガッツリ揚げ物×白米を補給。",
         mapQuery: "松のや+名駅西口店"
       },
       {
         name: "かつや 名古屋名駅店",
         category: "rice",
         genre: "カツ丼・揚げ物定食",
-        area: "桜通口側（広小路通方面 徒歩5分）",
+        access: "名駅 桜通口（広小路通方面）から徒歩約5分",
+        hours: "10:00〜23:00（通し営業）",
         budget: "約600〜900円",
-        desc: "サクサクのカツ丼や定食が手早く食べられる定番店。一人でも入りやすい。",
+        desc: "サクサクのカツ丼や定食が手早く食べられる定番店。一人でも入りやすいカウンター席中心。",
         mapQuery: "かつや+名古屋名駅店"
       },
       {
         name: "スガキヤ 名駅エスカ店",
         category: "ramen",
         genre: "豚骨魚介ラーメン・甘味",
-        area: "新幹線口側 地下街エスカ",
+        access: "名駅 太閤通口（新幹線口）地下直結（エスカ地下街 徒歩1分）",
+        hours: "10:00〜20:30（通し営業）",
         budget: "約400〜700円",
-        desc: "和風豚骨ラーメンと五目ごはんのセットでもワンコイン強。圧倒的な安さ。",
+        desc: "名古屋のソウルフード。和風豚骨ラーメンと五目ごはんを合わせてもワンコイン強。放課後のお小遣いに最も優しい店です。",
         mapQuery: "スガキヤ+名駅エスカ店"
       },
       {
-        name: "味仙（うまいもん通り / 大名古屋ビルヂング）",
+        name: "味仙 JR名古屋駅店（名古屋うまいもん通り）",
         category: "ramen",
         genre: "元祖台湾ラーメン・激辛中華",
-        area: "JR中央通り / 大名古屋ビル 3F",
+        access: "名駅 中央コンコース・新幹線口側（うまいもん通り 徒歩0分）",
+        hours: "11:00〜23:00（通し営業）",
         budget: "約850〜1,200円",
-        desc: "ニンニクと唐辛子がガツンと効いた激辛ミンチの元祖台湾ラーメン。",
+        desc: "ニンニクと唐辛子がガツンと効いた激辛ミンチの元祖台湾ラーメン。刺激が欲しい日に（辛さ控えめは『アメリカン』）。",
         mapQuery: "味仙+JR名古屋駅店"
       },
       {
         name: "熟成豚骨ラーメン専門 大名古屋一番軒",
         category: "ramen",
         genre: "博多白豚骨ラーメン・替え玉",
-        area: "大名古屋ビルヂング B1F（駅直結）",
+        access: "名駅 桜通口すぐ（大名古屋ビルヂング B1F 地下直結 徒歩1分）",
+        hours: "11:00〜23:00（通し営業）",
         budget: "約800〜1,000円",
-        desc: "濃厚クリーミーな博多豚骨。提供が早くカウンターでサクッと替え玉まで満喫。",
+        desc: "濃厚でクリーミーな本格博多白豚骨ラーメン。提供が早く、替え玉でしっかりお腹を満たしたいときに。",
         mapQuery: "熟成豚骨ラーメン専門+大名古屋一番軒"
       },
       {
         name: "ソロ ピッツァ ナポレターナ 大名古屋ビルヂング店",
         category: "other",
         genre: "本格薪窯ナポリピッツァ",
-        area: "大名古屋ビルヂング 1F",
+        access: "名駅 桜通口すぐ（大名古屋ビルヂング 1F 徒歩1分）",
+        hours: "11:00〜22:00（通し営業）",
         budget: "約600〜1,000円",
-        desc: "世界一職人の本格薪窯ピザをセルフ形式で。マルゲリータなど出来立て熱々。",
+        desc: "世界一職人の本格薪窯ピザをセルフ形式で。マルゲリータなど出来立て熱々のピザがファストフード感覚で楽しめます。",
         mapQuery: "ソロピッツァナポレターナ+大名古屋ビルヂング店"
       },
       {
-        name: "名代 住よし（各線ホーム内）",
+        name: "名代 住よし（JR在来線・新幹線各ホーム）",
         category: "udon",
         genre: "駅ホーム立ち食いきしめん",
-        area: "JR在来線・新幹線各ホーム（改札内）",
+        access: "JR名古屋駅 ホーム内（改札内 徒歩0分）",
+        hours: "7:00〜21:30（通し営業）",
         budget: "約400〜700円",
-        desc: "電車の待ち時間に数分で食べられる名物きしめん。揚げたてかき揚げが最高。",
+        desc: "電車の待ち時間にサクッと食べられる名物きしめん。出汁の効いたつゆとモチモチ麺に揚げたてかき揚げが最高です。",
         mapQuery: "名代+住よし+名古屋駅"
       }
     ];
@@ -422,11 +455,18 @@
         const matchesSearch = !searchQuery || 
           shop.name.toLowerCase().includes(searchQuery) ||
           shop.genre.toLowerCase().includes(searchQuery) ||
-          shop.area.toLowerCase().includes(searchQuery) ||
+          shop.access.toLowerCase().includes(searchQuery) ||
           shop.desc.toLowerCase().includes(searchQuery);
 
         return matchesCategory && matchesSearch;
       });
+
+      document.getElementById('countIndicator').innerText = `掲載数: ${filtered.length}店舗`;
+
+      if (filtered.length === 0) {
+        listEl.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b;">該当する店舗が見つかりませんでした。</div>';
+        return;
+      }
 
       listEl.innerHTML = filtered.map(shop => `
         <div class="shop-card">
@@ -439,7 +479,17 @@
           </div>
 
           <p class="shop-desc">${shop.desc}</p>
-          <div class="shop-details">📍 ${shop.area}</div>
+
+          <div class="meta-box">
+            <div class="meta-item">
+              <span class="meta-label">🚶 時間:</span>
+              <span>${shop.access}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">🕒 営業:</span>
+              <span>${shop.hours}</span>
+            </div>
+          </div>
 
           <div class="card-footer">
             <a class="btn-photo" href="https://www.google.com/search?tbm=isch&q=${encodeURIComponent(shop.name + ' 名古屋 料理')}" target="_blank" rel="noopener">
