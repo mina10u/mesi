@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名駅 放課後ごはんガイド（実物写真リンク付き）</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --tag-bg: #eff6ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 24px 16px 80px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .controls {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus {
+      border-color: var(--primary);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-tab {
+      background: #f1f5f9;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .filter-tab.active {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .shop-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .shop-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: box-shadow 0.15s ease;
+    }
+
+    .shop-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .genre-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--tag-bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .shop-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .budget-tag {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #059669;
+      background: #ecfdf5;
+      padding: 4px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .shop-desc {
+      font-size: 0.85rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .shop-details {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .btn-photo {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #f8fafc;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-photo:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .btn-map {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #eff6ff;
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-map:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>名駅 放課後ごはんガイド</h1>
+      <p class="subtitle">改札すぐ・地下街直結・コスパ重視の全17店舗まとめ</p>
+    </header>
+
+    <div class="controls">
+      <input type="text" id="searchInput" class="search-box" placeholder="店名や料理名、エリアで検索..." oninput="handleSearch()">
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="setCategory('all', this)">すべて</button>
+        <button class="filter-tab" onclick="setCategory('rice', this)">🍚 定食・丼・米</button>
+        <button class="filter-tab" onclick="setCategory('ramen', this)">🍜 ラーメン・まぜそば</button>
+        <button class="filter-tab" onclick="setCategory('udon', this)">🍲 うどん・パスタ</button>
+        <button class="filter-tab" onclick="setCategory('curry', this)">🍛 カレー</button>
+        <button class="filter-tab" onclick="setCategory('other', this)">🍕 洋食・ピザ</button>
+      </div>
+    </div>
+
+    <div class="shop-list" id="shopList"></div>
+  </div>
+
+  <script>
+    const SHOPS = [
+      {
+        name: "台湾まぜそば はなび ラーメン 名駅西口店",
+        category: "ramen",
+        genre: "台湾まぜそば・追い飯",
+        area: "新幹線口（太閤通口）徒歩3分",
+        budget: "約900〜1,100円",
+        desc: "名古屋発祥の元祖台湾まぜそば。ピリ辛ミンチと太麺、無料の「追い飯」で満足度抜群。",
+        mapQuery: "台湾まぜそば+はなび+名駅西口店"
+      },
+      {
+        name: "スパゲッティ・ハウス ヨコイ KITTE名古屋店",
+        category: "udon",
+        genre: "あんかけスパゲティ",
+        area: "KITTE名古屋 B1F（駅直結）",
+        budget: "約950〜1,200円",
+        desc: "元祖あんかけスパの名店。黒胡椒がピリッと効いた濃厚ソースと極太パスタ。",
+        mapQuery: "スパゲッティハウス+ヨコイ+KITTE名古屋店"
+      },
+      {
+        name: "エリックサウス KITTE名古屋店",
+        category: "curry",
+        genre: "南インドカレー・ビリヤニ",
+        area: "KITTE名古屋 B1F（駅直結）",
+        budget: "約1,000〜1,300円",
+        desc: "本格スパイスカレーとバスマティライス。カウンター席が多く一人でも入りやすい。",
+        mapQuery: "エリックサウス+KITTE名古屋店"
+      },
+      {
+        name: "江南 JRセントラルタワーズ店",
+        category: "ramen",
+        genre: "老舗あっさりラーメン・炒飯",
+        area: "タワーズプラザ 13F（駅直結）",
+        budget: "約900〜1,200円",
+        desc: "豚骨鶏ガラの澄んだスープが絶品の老舗。パラパラ炒飯や餃子セットも人気。",
+        mapQuery: "江南+JRセントラルタワーズ店"
+      },
+      {
+        name: "よもだそば 名古屋うまいもん通り広小路口店",
+        category: "curry",
+        genre: "立ち食いそば・特製インドカレー",
+        area: "JR広小路口改札すぐ横",
+        budget: "約600〜850円",
+        desc: "本格スパイスを煮込んだ自家製「特製インドカレー」が大名物。提供スピード最速。",
+        mapQuery: "よもだそば+名古屋うまいもん通り広小路口店"
+      },
+      {
+        name: "若鯱家 名古屋駅エスカ店",
+        category: "udon",
+        genre: "名物カレーうどん・セット丼",
+        area: "新幹線口側 地下街エスカ",
+        budget: "約1,000〜1,300円",
+        desc: "とろみが強く和風だしの効いたカレールーにモッチリ極太麺。ミニ味噌カツ丼セットも。",
+        mapQuery: "若鯱家+名古屋駅エスカ店"
+      },
+      {
+        name: "丸亀製麺 名駅サンロード",
+        category: "udon",
+        genre: "讃岐うどん・天ぷら",
+        area: "地下街サンロード（近鉄・名鉄側）",
+        budget: "約400〜750円",
+        desc: "安く早くサクッと済ませたいときの定番。天ぷらやおにぎりを合わせても千円以下。",
+        mapQuery: "丸亀製麺+名駅サンロード"
+      },
+      {
+        name: "野らぼー 名古屋JRゲートタワー店",
+        category: "udon",
+        genre: "手打ち讃岐うどん・天ぷら",
+        area: "JRゲートタワー 12F（駅直結）",
+        budget: "約900〜1,300円",
+        desc: "コシの強い手打ち讃岐うどん。落ち着いた店内で友達とゆったり座って食べられます。",
+        mapQuery: "野らぼー+名古屋JRゲートタワー店"
+      },
+      {
+        name: "カレーうどん 大庵",
+        category: "udon",
+        genre: "カレーうどん（朝〜14時）",
+        area: "名駅4丁目（柳橋中央市場エリア）",
+        budget: "約800〜1,000円",
+        desc: "出汁の旨味が効いた市場エリアのカレーうどん専門店。※早帰りの日向け。",
+        mapQuery: "カレーうどん+大庵+名古屋"
+      },
+      {
+        name: "名北飯店 サンロード店",
+        category: "rice",
+        genre: "中華定食・白米ガッツリ",
+        area: "地下街サンロード",
+        budget: "約900〜1,100円",
+        desc: "から揚げや麻婆豆腐など、濃いめの味付けで白米がどんどん進む町中華定食。",
+        mapQuery: "名北飯店+サンロード店"
+      },
+      {
+        name: "松のや 名駅西口店",
+        category: "rice",
+        genre: "とんかつ・カツ丼・定食",
+        area: "太閤通口（新幹線口）徒歩3分",
+        budget: "約600〜900円",
+        desc: "ロースかつ定食やカツ丼がコスパ抜群。食券制で回転も早く節約したい日に最適。",
+        mapQuery: "松のや+名駅西口店"
+      },
+      {
+        name: "かつや 名古屋名駅店",
+        category: "rice",
+        genre: "カツ丼・揚げ物定食",
+        area: "桜通口側（広小路通方面 徒歩5分）",
+        budget: "約600〜900円",
+        desc: "サクサクのカツ丼や定食が手早く食べられる定番店。一人でも入りやすい。",
+        mapQuery: "かつや+名古屋名駅店"
+      },
+      {
+        name: "スガキヤ 名駅エスカ店",
+        category: "ramen",
+        genre: "豚骨魚介ラーメン・甘味",
+        area: "新幹線口側 地下街エスカ",
+        budget: "約400〜700円",
+        desc: "和風豚骨ラーメンと五目ごはんのセットでもワンコイン強。圧倒的な安さ。",
+        mapQuery: "スガキヤ+名駅エスカ店"
+      },
+      {
+        name: "味仙（うまいもん通り / 大名古屋ビルヂング）",
+        category: "ramen",
+        genre: "元祖台湾ラーメン・激辛中華",
+        area: "JR中央通り / 大名古屋ビル 3F",
+        budget: "約850〜1,200円",
+        desc: "ニンニクと唐辛子がガツンと効いた激辛ミンチの元祖台湾ラーメン。",
+        mapQuery: "味仙+JR名古屋駅店"
+      },
+      {
+        name: "熟成豚骨ラーメン専門 大名古屋一番軒",
+        category: "ramen",
+        genre: "博多白豚骨ラーメン・替え玉",
+        area: "大名古屋ビルヂング B1F（駅直結）",
+        budget: "約800〜1,000円",
+        desc: "濃厚クリーミーな博多豚骨。提供が早くカウンターでサクッと替え玉まで満喫。",
+        mapQuery: "熟成豚骨ラーメン専門+大名古屋一番軒"
+      },
+      {
+        name: "ソロ ピッツァ ナポレターナ 大名古屋ビルヂング店",
+        category: "other",
+        genre: "本格薪窯ナポリピッツァ",
+        area: "大名古屋ビルヂング 1F",
+        budget: "約600〜1,000円",
+        desc: "世界一職人の本格薪窯ピザをセルフ形式で。マルゲリータなど出来立て熱々。",
+        mapQuery: "ソロピッツァナポレターナ+大名古屋ビルヂング店"
+      },
+      {
+        name: "名代 住よし（各線ホーム内）",
+        category: "udon",
+        genre: "駅ホーム立ち食いきしめん",
+        area: "JR在来線・新幹線各ホーム（改札内）",
+        budget: "約400〜700円",
+        desc: "電車の待ち時間に数分で食べられる名物きしめん。揚げたてかき揚げが最高。",
+        mapQuery: "名代+住よし+名古屋駅"
+      }
+    ];
+
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    function setCategory(cat, el) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      render();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+      render();
+    }
+
+    function render() {
+      const listEl = document.getElementById('shopList');
+      const filtered = SHOPS.filter(shop => {
+        const matchesCategory = (currentCategory === 'all' || shop.category === currentCategory);
+        const matchesSearch = !searchQuery || 
+          shop.name.toLowerCase().includes(searchQuery) ||
+          shop.genre.toLowerCase().includes(searchQuery) ||
+          shop.area.toLowerCase().includes(searchQuery) ||
+          shop.desc.toLowerCase().includes(searchQuery);
+
+        return matchesCategory && matchesSearch;
+      });
+
+      listEl.innerHTML = filtered.map(shop => `
+        <div class="shop-card">
+          <div class="card-header">
+            <div>
+              <span class="genre-tag">${shop.genre}</span>
+              <div class="shop-name">${shop.name}</div>
+            </div>
+            <div class="budget-tag">${shop.budget}</div>
+          </div>
+
+          <p class="shop-desc">${shop.desc}</p>
+          <div class="shop-details">📍 ${shop.area}</div>
+
+          <div class="card-footer">
+            <a class="btn-photo" href="https://www.google.com/search?tbm=isch&q=${encodeURIComponent(shop.name + ' 名古屋 料理')}" target="_blank" rel="noopener">
+              📷 実物の料理写真を見る ↗
+            </a>
+            <a class="btn-map" href="https://www.google.com/maps/search/?api=1&query=${shop.mapQuery}" target="_blank" rel="noopener">
+              🗺️ Googleマップ ↗
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    render();
+  </script>
+</body>
+</html>
